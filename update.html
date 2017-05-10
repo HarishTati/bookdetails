@@ -1,0 +1,167 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+    <title>retrieve</title>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        li {
+            float: left;
+        }
+
+        li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        li a:hover {
+            background-color: #111;
+        }
+    </style>
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script></head>
+<body bgcolor="#008800">
+     <ul>
+        <li><a class="active" href="insert.html">Create</a></li>
+        </div>
+        <li><a href="retrieve.html">Retrieve</a></li>
+        <li><a href="update.html">update</a></li>
+        <li><a href="delete.html">Delete</a></li>
+        <li><a href="deleteselected.html">Delete Selected</a></li>
+    </ul><br><br><br><br><div ng-app="myApp" ng-controller="ctrl3">
+        <br><br><br><br>
+        <div align="center">
+            <div style="width:300px; border: solid 1px #333333; " align="left">
+                <div style="background-color:#333333; color:#FFFFFF; padding:3px;"><b>retrieve</b></div>
+
+                <div style="margin:30px">
+
+                    <form >
+                        <label>BName  &nbsp;&nbsp;&nbsp;:</label><input ng-model="Bname" class="box" /><br /><br />
+                        <input type="button" value="OK" ng-click="myFunc()" />
+                    </form>
+
+
+                </div>
+
+
+
+            </div>
+
+        </div><br><br><br><br><br>
+          <div align="center">
+        <div style="width:500px; border: solid 1px #333333; " align="left">
+            <div style="background-color:#333333; color:#FFFFFF; padding:3px;"><b>update</b></div>
+
+            <div style="margin:30px">
+
+    <label>Bid  &nbsp;&emsp;&emsp;&emsp;&emsp;:</label><input ng-model="Bid" class="box" /><br /><br />
+                    <label>Bname &nbsp;&nbsp;&emsp;&emsp;:</label><input ng-model="Bname" class="box" /><br/><br />
+                    <label>Cost  &nbsp;&emsp;&emsp;&emsp;:</label><input ng-model="Cost" class="box" /><br /><br />
+                    <label>Author &nbsp;&nbsp;&emsp;&emsp;:</label><input ng-model="Author" class="box" /><br/><br />
+                    <label>Publications &nbsp; :</label><input ng-model="Publications" class="box" /><br/><br />
+                     <input type="button" value="update" ng-click="myFunc1()" />
+
+
+    </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('ctrl3', function($scope, $http) {
+             $scope.myFunc1 = function() {
+                alert("do you want to update?");
+                var Bid = $scope.Bid;
+                var Bname = $scope.Bname;
+                var Cost= $scope.Cost;
+                var Author = $scope.Author;
+                var Publications = $scope.Publications;
+                var req = {
+                    method: 'POST',
+                    url: 'http://localhost:3000/update',
+                    headers: {
+                        'Content-Type': 'Application/json'
+                    },
+                    data: {
+                        Bid: Bid,
+                        Bname: Bname,
+                        Cost: Cost,
+                        Author: Author,
+                        Publications: Publications
+                    }
+                }
+
+                $http(req)
+                    .then(function(response) {
+                        $scope.na = response.data;
+                                      alert($scope.na);
+
+                    });
+            };
+
+
+            $scope.myFunc = function() {
+                alert("do you want to retrieve?");
+                $scope.records = [{
+                    "Bid": "Bid",
+                    "Bname": "Bname",
+                    "Cost": "Cost",
+                    "Author": "Author",
+                    "Publications": "Publications"
+                }]
+                var Bname = $scope.Bname;
+                var req = {
+                    method: 'POST',
+                    url: 'http://localhost:3000/retrieve',
+                    headers: {
+                        'Content-Type': 'Application/json'
+                    },
+                    data: {
+                        Bname: Bname,
+                    }
+                }
+
+                $http(req)
+                    .then(function(response) {
+
+                        $scope.Bid = response.data[0].Bid;
+
+                        $scope.Bname = response.data[0].Bname;
+
+                        $scope.Cost = response.data[0].Cost;
+
+                        $scope.Author = response.data[0].Author;
+
+                        $scope.Publications = response.data[0].Publications;
+
+                });
+            };
+
+        });
+
+    </script>
+
+</body>
+
+</html>
